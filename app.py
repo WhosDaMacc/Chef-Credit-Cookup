@@ -3,14 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 
+# Initialize Flask app
 app = Flask(__name__)
 app.config['APP_NAME'] = "Chef Credit Cookup"
 
 # Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # SQLite file
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize Database
+# Initialize Database and Migrations
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -24,7 +25,7 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.email}>'
 
-# Create tables (run once)
+# Create database tables (first-time setup)
 with app.app_context():
     db.create_all()
 
@@ -35,24 +36,31 @@ def signup():
     name = data.get('name')
     email = data.get('email')
 
-    # Check for existing email
+    if not name or not email:
+        return jsonify({"error": "Name and email are required"}), 400
+
+    # Check for existing user
     if User.query.filter_by(email=email).first():
-        return jsonify({"error": "Email already registered"}), 400
+        return jsonify({"error": "Email already registered"}), 409
 
-    # Create new user
-    new_user = User(name=name, email=email)
-    db.session.add(new_user)
-    db.session.commit()
-
-    return jsonify({
-        "message": f"User {name} successfully signed up for {app.config['APP_NAME']}",
-        "user_id": new_user.id
-    }), 201
+    try:
+        new_user = User(name=name, email=email)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({
+            "message": f"User {name} successfully signed up!",
+            "user_id": new_user.id,
+            "created_at": new_user.created_at.isoformat()
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/notifications', methods=['GET'])
 def notifications():
     return jsonify({
-        "message": f"Stay tuned for updates on your credit repair status with {app.config['APP_NAME']}!"
+        "message": f"Stay tuned for updates from {app.config['APP_NAME']}!",
+        "total_users": User.query.count()
     })
 
 if __name__ == '__main__':
