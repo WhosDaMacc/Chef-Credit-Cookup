@@ -1,0 +1,12 @@
+Your Computer
+└── (Wherever you create the project)
+    └── chef-credit-cookup/   ← Project root
+        ├── app.py            ← Your Flask code
+        ├── requirements.txt  ← Dependencies
+        ├── templates/        ← HTML templates
+        │   ├── base.html
+        │   ├── index.html
+        │   ├── signup.html
+        │   └── success.html
+        └── static/           ← CSS/JS/images
+            └── style.css
