@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="col-md-8 mx-auto">
+    <h2>Your Credit Updates</h2>
+    <div class="list-group">
+        {% for notification in notifications %}
+            <div class="list-group-item">
+                <h5>{{ notification.title }}</h5>
+                <p>{{ notification.message }}</p>
+                <small>{{ notification.date }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
