@@ -1,6 +1,4 @@
-Your Computer
-└── (Wherever you create the project)
-    └── chef-credit-cookup/   ← Project root
+└── chef-credit-cookup/   ← Project root
         ├── app.py            ← Your Flask code
         ├── requirements.txt  ← Dependencies
         ├── templates/        ← HTML templates
