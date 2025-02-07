@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Success - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-5 mb-3">Welcome to Chef Credit Cookup! 🎉</h1>
+    <p class="lead">We've received your application for credit repair services</p>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Return Home</a>
+</div>
+{% endblock %}
