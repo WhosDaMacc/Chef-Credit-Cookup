@@ -65,3 +65,22 @@ def notifications():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    from flask import Flask
+from datetime import datetime
+
+app = Flask(__name__)
+
+# Configuration that works without a domain
+app.config.update({
+    'APP_NAME': "Chef Credit Cookup",
+    'BASE_URL': 'http://localhost:5000',  # Will auto-update to real domain later
+    'CURRENT_YEAR': datetime.now().year
+})
+
+@app.context_processor
+def inject_global_vars():
+    """Makes these available in all templates"""
+    return {
+        'current_year': app.config['CURRENT_YEAR'],
+        'base_url': app.config['BASE_URL']
+    }
