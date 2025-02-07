@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ super() }}{% endblock %}
+
+{% block content %}
+<section class="hero text-center py-5">
+    <h1 class="display-4 mb-4">Fix Your Credit Score with Chef Credit Cookup</h1>
+    <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Start Free Evaluation</a>
+</section>
+{% endblock %}
